@@ -3,22 +3,17 @@
 import Button from "@/atoms/Button"
 import { useMutation } from "@tanstack/react-query"
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
+import Query from "../Query"
 
 
 type FileUploadState = {
-  done: boolean,
+  status: 'uploading' | 'done' | 'idle',
   file: File
 }
 
 function Upload() {
   const [photos, setPhotos] = useState<FileUploadState[] | null>(null)
   const photoInputRef = useRef<HTMLInputElement>(null)
-
-  // const mutation = useMutation({
-  //   mutationFn: () => {
-  //     return fetch('/upload/api', {})
-  //   }
-  // })
 
   const uploadPhotos = useCallback(() => {
     photoInputRef.current?.click()
@@ -30,9 +25,9 @@ function Upload() {
     if (!files) return
 
     const photos = Array.from(files).map((item) => ({
-      done: false,
+      status: 'idle',
       file: item
-    }))
+    })) satisfies FileUploadState[]
 
     setPhotos(photos)
   }, [])
@@ -40,11 +35,18 @@ function Upload() {
 
   useEffect(() => {
     if (photos === null) return
-    const allDone = !photos.find(({ done }) => done === false)
-    if (allDone) return
+    const next = photos.find(({ status }) => status === 'idle')
 
-    const next = photos.find(({ done }) => done === false)
+    if (!next) return
     console.log(next)
+
+    const data = new FormData()
+    data.append('files', next?.file)
+
+    fetch('/upload/api', {
+      method: "POST",
+      body: data
+    })
   }, [photos])
 
   return (

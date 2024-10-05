@@ -40,9 +40,9 @@ function Upload() {
     setPhotos(photos)
   }, [])
 
-
   useEffect(() => {
     if (photos === null) return
+    if (photos.find(({status}) => status === 'uploading')) return
 
     const next = photos.find(({ status }) => status === 'idle')
     if (!next) return
@@ -50,6 +50,8 @@ function Upload() {
     const data = new FormData()
     data.append('files', next?.file)
 
+    next.status = 'uploading'
+    setPhotos([...photos])
     uploadImage(data).then((res) => {
       next.status = res.status
       setPhotos([...photos])
@@ -59,13 +61,15 @@ function Upload() {
   return (
     <div>
       <Button onClick={uploadPhotos} hideBorder className="text-5xl">Photos</Button>
-      <input onChange={onPhotoChange} ref={photoInputRef} hidden multiple type="file" />
+      <input accept="image/*" onChange={onPhotoChange} ref={photoInputRef} hidden multiple type="file" />
 
       {photos && (
         <div className="flex gap-2 px-5 mt-6">
           {photos.map(({ file, status }) => (
-            <div className={`
-              ${status === 'done' && 'bg-white text-black'}
+            <div className={`px-2
+              ${status === 'done' && 'bg-white text-black'} 
+              ${status === 'error' && 'bg-red-700 text-black'} 
+              ${status === 'uploading' && 'bg-gray-700 text-black'}
             `} key={file.name}>
               {file.name}
             </div>

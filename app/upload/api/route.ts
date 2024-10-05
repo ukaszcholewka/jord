@@ -22,13 +22,14 @@ export async function POST(request: NextRequest) {
 
   try {
     fs.writeFileSync(`${dirName}/${file.name}`, view)
-  } catch (error) {
-    return new Response(error as string, {
+  } catch {
+
+    return new Response(JSON.stringify({ status: 'error' }), {
       status: 500
     })
   }
 
-  return new Response(null, {
+  return new Response(JSON.stringify({ status: 'done' }), {
     status: 200
   })
 }

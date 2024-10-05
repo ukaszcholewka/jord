@@ -1,14 +1,22 @@
 'use client'
 
 import Button from "@/atoms/Button"
-import { useMutation } from "@tanstack/react-query"
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
-import Query from "../Query"
 
+type FileStatus = 'uploading' | 'done' | 'idle' | 'error'
 
 type FileUploadState = {
-  status: 'uploading' | 'done' | 'idle',
+  status: FileStatus,
   file: File
+}
+
+const uploadImage = async (data: FormData) => {
+  const response = await fetch('/upload/api', {
+    method: "POST",
+    body: data
+  })
+  const json = await response.json()
+  return json as { status: FileStatus }
 }
 
 function Upload() {
@@ -35,17 +43,16 @@ function Upload() {
 
   useEffect(() => {
     if (photos === null) return
-    const next = photos.find(({ status }) => status === 'idle')
 
+    const next = photos.find(({ status }) => status === 'idle')
     if (!next) return
-    console.log(next)
 
     const data = new FormData()
     data.append('files', next?.file)
 
-    fetch('/upload/api', {
-      method: "POST",
-      body: data
+    uploadImage(data).then((res) => {
+      next.status = res.status
+      setPhotos([...photos])
     })
   }, [photos])
 
@@ -56,8 +63,12 @@ function Upload() {
 
       {photos && (
         <div className="flex gap-2 px-5 mt-6">
-          {photos.map(({ file, done }) => (
-            <div key={file.name}>{file.name}</div>
+          {photos.map(({ file, status }) => (
+            <div className={`
+              ${status === 'done' && 'bg-white text-black'}
+            `} key={file.name}>
+              {file.name}
+            </div>
           ))}
         </div>
       )}

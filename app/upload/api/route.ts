@@ -2,14 +2,33 @@ import { NextRequest } from "next/server";
 import fs from 'fs'
 
 export async function POST(request: NextRequest) {
-  const test = await request.formData()
-  console.log({ test })
+  const data = await request.formData() as FormData
 
   const time = new Date()
-  const dirName = `${time.getFullYear()}_${time.getMonth()}_${time.getDay()}`
+  const dirName = `./storage/photos/${time.getFullYear()}_${time.getMonth()}_${time.getDay()}`
 
+  if (!fs.existsSync('./storage/photos/'))
+    fs.mkdirSync('./storage/photos/')
 
-  fs.mkdirSync(`./storage/${dirName}`)
+  if (!fs.existsSync(dirName))
+    fs.mkdirSync(dirName)
 
-  return Response.json({ status: 'ok' })
+  const file = data.get('files') as File
+
+  if (!file) return Response.json({ status: 'missing image' })
+
+  const buffer = await file.arrayBuffer()
+  const view = new DataView(buffer)
+
+  try {
+    fs.writeFileSync(`${dirName}/${file.name}`, view)
+  } catch (error) {
+    return new Response(error as string, {
+      status: 500
+    })
+  }
+
+  return new Response(null, {
+    status: 200
+  })
 }

@@ -1,6 +1,5 @@
 'use client'
 
-
 import jordApi, { PhotosByDayList } from "@/api/JordApi"
 import Button from "@/atoms/Button"
 import Image from 'next/image'
@@ -24,13 +23,8 @@ function Photo({ photos }: PhotoProps) {
   const image = webp || jpg || jpeg || png
   const name = image ? `${image.name}.${image.ext}` : ''
 
-  const onPhotoClick = useCallback(() => {
-    setShow((show) => !show)
-  }, [])
-
-  const onPhotoClose = useCallback(() => {
-    setShow(false)
-  }, [])
+  const onPhotoClick = useCallback(() => setShow((show) => !show), [])
+  const onPhotoClose = useCallback(() => setShow(false), [])
 
   const onDownloadImage = useCallback(async (ext: string) => {
     const name = `${photos[0].name}.${ext}`

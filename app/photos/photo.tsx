@@ -32,6 +32,18 @@ function Photo({ photos }: PhotoProps) {
     setShow(false)
   }, [])
 
+  const onDownloadImage = useCallback(async (ext: string) => {
+    const name = `${photos[0].name}.${ext}`
+    const image = await fetch(getImageUrl(photos[0].date, name))
+    const blob = await image.blob()
+    const url = URL.createObjectURL(blob)
+
+    const link = document.createElement('a')
+    link.href = url
+    link.download = `${name}`
+    link.click()
+  }, [photos])
+
   return (
     <div>
       {image && (
@@ -52,7 +64,7 @@ function Photo({ photos }: PhotoProps) {
             <Button onClick={onPhotoClose}>close</Button>
           </div>
 
-          <div className="flex h-full gap-4">
+          <div className="flex h-full gap-4 px-4">
             <div className="flex items-center justify-center">
               {image && (
                 <Image
@@ -61,7 +73,6 @@ function Photo({ photos }: PhotoProps) {
                   height="2048"
                   width="2048"
                   className="h-auto w-full"
-                  onClick={onPhotoClick}
                 />
               )}
             </div>
@@ -69,7 +80,7 @@ function Photo({ photos }: PhotoProps) {
               <h2 className="text-4xl mb-2">Download</h2>
               <div>
                 {photos.map(({ ext }) => (
-                  <Button key={ext}>{ext}</Button>
+                  <Button key={ext} onClick={() => onDownloadImage(ext)}>{ext}</Button>
                 ))}
               </div>
             </div>

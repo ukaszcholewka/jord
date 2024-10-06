@@ -20,7 +20,6 @@ export async function GET(
   const parsed = files.map((file) => ({
     ext: /(?=[^.]*$).*/.exec(file)?.[0],
     name: /^.*(?=\.)/.exec(file)?.[0],
-    src: `${PHOTOS}/${date}/${file}`,
     date: date
   }))
 

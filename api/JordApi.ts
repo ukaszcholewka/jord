@@ -1,6 +1,5 @@
 export type GetPhotoApiListResponse = `${number}${number}${number}${number}_${number}${number}_${number}${number}`[]
 export type GetPhotosByDayResponse = {
-  src: string,
   name: string,
   ext: string,
   date: string
@@ -9,7 +8,7 @@ export type GetPhotosByDayResponse = {
 import Api from './Api'
 
 class JordApi {
-  private api = new Api('http://localhost:3000')
+  public api = new Api('http://localhost:3000')
 
   public async getPhotoList() {
     const response = await this.api.get<GetPhotoApiListResponse>('/photos/api/list')

@@ -1,6 +1,6 @@
 export default class Api {
   public constructor(
-    private url: string
+    public url: string
   ) { }
 
   public async get<T>(path: string) {

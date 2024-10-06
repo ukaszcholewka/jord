@@ -6,8 +6,7 @@ export async function POST(request: NextRequest) {
 
   const time = new Date()
 
-  // TODO: there is a problem with day, idk why
-  const dirName = `./storage/photos/${time.getFullYear()}_${time.getMonth()}_${time.getDay() + 1}`
+  const dirName = `./storage/photos/${time.getFullYear()}_${time.getMonth()}_${time.getDate()}`
 
   if (!fs.existsSync('./storage/photos/'))
     fs.mkdirSync('./storage/photos/')

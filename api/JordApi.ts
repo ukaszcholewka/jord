@@ -1,9 +1,12 @@
 export type GetPhotoApiListResponse = `${number}${number}${number}${number}_${number}${number}_${number}${number}`[]
-export type GetPhotosByDayResponse = {
+
+export type PhotosByDayList = {
   name: string,
   ext: string,
   date: string
-}[]
+}
+
+export type GetPhotosByDayResponse = PhotosByDayList[][]
 
 import Api from './Api'
 

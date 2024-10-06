@@ -18,7 +18,10 @@ function TopBar() {
 
   return (
     <>
-      <div className="flex justify-center py-2 fixed w-full">
+      <div
+        className="flex justify-center py-2 fixed w-full ml-[-16px]"
+        style={{ backdropFilter: 'blur(16px)' }}
+      >
         <Href isActive={isActive(PATHS.Upload)} href={PATHS.Upload}>
           Upload
         </Href>

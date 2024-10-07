@@ -1,6 +1,7 @@
 'use client'
 
 import Button from "@/atoms/Button"
+import { revalidateTag } from "next/cache"
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
 
 type FileStatus = 'uploading' | 'done' | 'idle' | 'error'
@@ -16,7 +17,7 @@ const uploadImage = async (data: FormData) => {
     body: data
   })
   const json = await response.json()
-  return json as { status: FileStatus }
+  return json as { status: FileStatus, date: string }
 }
 
 function Upload() {
@@ -42,7 +43,7 @@ function Upload() {
 
   useEffect(() => {
     if (photos === null) return
-    if (photos.find(({status}) => status === 'uploading')) return
+    if (photos.find(({ status }) => status === 'uploading')) return
 
     const next = photos.find(({ status }) => status === 'idle')
     if (!next) return

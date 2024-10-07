@@ -59,7 +59,7 @@ function Photo({ photos }: PhotoProps) {
           </div>
 
           <div className="flex h-full gap-4 px-4">
-            <div className="flex items-center justify-center">
+            <div className="flex items-center justify-center min-w-[50%]">
               {image && (
                 <Image
                   src={getImageUrl(image.date, name)}

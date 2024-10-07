@@ -1,12 +1,14 @@
 import { NextRequest } from "next/server";
 import fs from 'fs'
+import { revalidateTag } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData() as FormData
 
   const time = new Date()
+  const date = `${time.getFullYear()}_${time.getMonth()}_${time.getDate()}`
 
-  const dirName = `./storage/photos/${time.getFullYear()}_${time.getMonth()}_${time.getDate()}`
+  const dirName = `./storage/photos/${date}`
 
   if (!fs.existsSync('./storage/photos/'))
     fs.mkdirSync('./storage/photos/')
@@ -30,7 +32,8 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  return new Response(JSON.stringify({ status: 'done' }), {
+  revalidateTag(date)
+  return new Response(JSON.stringify({ status: 'done', date }), {
     status: 200
   })
 }

@@ -19,7 +19,12 @@ class JordApi {
   }
 
   public async getPhotosByDay(date: string) {
-    const response = await this.api.get<GetPhotosByDayResponse>(`/photos/api/list/${date}`)
+    const response = await this.api.get<GetPhotosByDayResponse>(`/photos/api/list/${date}`, {
+      next: {
+        tags: [date]
+      },
+      cache: 'no-cache'
+    })
     return await response.json()
   }
 

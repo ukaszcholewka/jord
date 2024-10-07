@@ -1,11 +1,17 @@
+type Config = {
+  next?: NextFetchRequestConfig
+  cache?: RequestCache
+}
+
 export default class Api {
   public constructor(
     public url: string
   ) { }
 
-  public async get<T>(path: string) {
+  public async get<T>(path: string, config?: Config) {
     const response = await fetch(`${this.url}${path}`, {
-      method: 'GET'
+      method: 'GET',
+      ...config
     })
 
     return {

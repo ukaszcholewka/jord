@@ -7,5 +7,14 @@ export async function GET() {
     mkdirSync('./storage/photos')
 
   const files = await readdir('./storage/photos')
-  return Response.json(files)
+  const sorted = files.sort((a, b) => {
+    const [yearA, monthA, dayA] = a.split('_').map((item) => parseInt(item, 10))
+    const [yearB, monthB, dayB] = b.split('_').map((item) => parseInt(item, 10))
+
+    if (yearB > yearA) return -1
+    if (monthB > monthA) return -1
+    if (dayB > dayA) return -1
+    return -1
+  })
+  return Response.json(sorted)
 }

@@ -10,8 +10,13 @@ export type GetPhotosByDayResponse = PhotosByDayList[][]
 
 import Api from './Api'
 
+const HOST = process.env.NEXT_PUBLIC_HOST
+const PORT = process.env.NEXT_PUBLIC_PORT
+
+const APP_URL = `${HOST}:${PORT}`
+
 class JordApi {
-  public api = new Api('http://localhost:3000')
+  public api = new Api(APP_URL)
 
   public async getPhotoList() {
     const response = await this.api.get<GetPhotoApiListResponse>('/photos/api/list')

@@ -1,5 +1,6 @@
-import jordApi, { GetPhotoApiListResponse } from "@/api/JordApi"
+import { GetPhotoApiListResponse } from "@/api/JordApi"
 import Photo from "./photo"
+import getPhotosBayDay from "@/api/get/GetPhotosByDay"
 
 type PhotosDayProps = {
   day: GetPhotoApiListResponse[number]
@@ -7,7 +8,7 @@ type PhotosDayProps = {
 
 async function PhotosDay({ day: date }: PhotosDayProps) {
   const [year, month, day] = date.split('_').map((item) => item.padStart(2, '0'))
-  const photos = await jordApi.getPhotosByDay(date)
+  const photos = await getPhotosBayDay(date)
 
   return (
     <div>

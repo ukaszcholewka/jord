@@ -1,20 +1,21 @@
-import { PhotosByDayList } from '@/api/JordApi'
 import { existsSync } from 'node:fs'
 import { readdir } from 'node:fs/promises'
 
+
+export type PhotosByDayList = {
+  name: string,
+  ext: string,
+  date: string
+}
+
 const PHOTOS = './storage/photos'
 
-export async function GET(
-  _: Request,
-  { params }: { params: { date: string } }
-) {
-  const date = params.date
+async function getPhotosBayDay(date: string) {
+
   const dir = `${PHOTOS}/${date}`
 
   if (!existsSync(dir))
-    return new Response(`dir ${date} missing`, {
-      status: 500
-    })
+    throw new Error('Missing dir')
 
   const files = await readdir(dir)
 
@@ -28,5 +29,7 @@ export async function GET(
   const singles = Array.from(new Set(parsed.map(({ name }) => name)))
   const images = singles.map((name) => sorted[name])
 
-  return Response.json(images)
+  return (images || []) as unknown as PhotosByDayList[][]
 }
+
+export default getPhotosBayDay

@@ -1,8 +1,9 @@
-import jordApi from "@/api/JordApi"
+import getPhotoApiList from "@/api/get/GetPhotoApiListResponse"
 import PhotosDay from "./day"
 
+
 async function Photos() {
-  const list = await jordApi.getPhotoList() || []
+  const list = await getPhotoApiList() || []
 
   return (
     <div>

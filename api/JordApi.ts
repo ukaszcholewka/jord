@@ -18,11 +18,6 @@ const APP_URL = `${HOST}:${PORT}`
 class JordApi {
   public api = new Api(APP_URL)
 
-  public async getPhotoList() {
-    const response = await this.api.get<GetPhotoApiListResponse>('/photos/api/list')
-    return await response.json()
-  }
-
   public async getPhotosByDay(date: string) {
     const response = await this.api.get<GetPhotosByDayResponse>(`/photos/api/list/${date}`, {
       next: {

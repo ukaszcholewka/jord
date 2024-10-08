@@ -18,6 +18,7 @@ async function getPhotosBayDay(date: string) {
     throw new Error('Missing dir')
 
   const files = await readdir(dir)
+  console.log({ files }, 'getPhotosBayDay')
 
   const parsed = files.map((file) => ({
     ext: /(?=[^.]*$).*/.exec(file)?.[0],

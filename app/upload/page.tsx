@@ -1,7 +1,6 @@
 'use client'
 
 import Button from "@/atoms/Button"
-import { revalidatePath } from "next/cache"
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"
 
 type FileStatus = 'uploading' | 'done' | 'idle' | 'error'

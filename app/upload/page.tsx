@@ -61,10 +61,10 @@ function Upload() {
   return (
     <div>
       <Button onClick={uploadPhotos} hideBorder className="text-5xl">Photos</Button>
-      <input accept="image/*" onChange={onPhotoChange} ref={photoInputRef} hidden multiple type="file" />
+      <input onChange={onPhotoChange} ref={photoInputRef} hidden multiple type="file" />
 
       {photos && (
-        <div className="flex gap-2 px-5 mt-6">
+        <div className="flex gap-2 px-5 mt-6 flex-wrap">
           {photos.map(({ file, status }) => (
             <div className={`px-2
               ${status === 'done' && 'bg-white text-black'} 

@@ -6,7 +6,6 @@ type PhotosDayProps = {
   day: GetPhotoApiListResponse[number]
 }
 
-export const dynamic = 'force-dynamic'
 
 async function PhotosDay({ day: date }: PhotosDayProps) {
   const [year, month, day] = date.split('_').map((item) => item.padStart(2, '0'))
@@ -17,7 +16,7 @@ async function PhotosDay({ day: date }: PhotosDayProps) {
       <h2 className="text-4xl ml-2">
         {year}, {month}, {day}
       </h2>
-      <div className="flex flex-wrap justify-center">
+      <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 justify-center align-middle">
         {photos.map((images) => {
           const image = images[0]
           const key = `${image.name}.${image.ext}`

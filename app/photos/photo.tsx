@@ -34,37 +34,39 @@ function Photo({ photos }: PhotoProps) {
 
     const link = document.createElement('a')
     link.href = url
-    link.download = `${name}`
+   link.download = `${name}`
     link.click()
   }, [photos])
 
   return (
-    <div>
+    <div className="aspect-square overflow-hidden">
       {image && (
         <Image
           src={getImageUrl(image.date, name)}
           alt={name}
           height="256"
           width="256"
-          className="h-64 w-auto cursor-pointer"
+          quality={90}
+          className="h-auto w-auto cursor-pointer translate-y-[-50%] my-[50%]"
           onClick={onPhotoClick}
         />
       )}
 
       {show && (
-        <div className="fixed top-0 left-0 w-full h-full bg-black">
+        <div className="fixed top-0 left-0 w-full h-full bg-black z-10">
           <div className="flex justify-between px-4 py-2">
             <div>{name}</div>
             <Button onClick={onPhotoClose}>close</Button>
           </div>
 
-          <div className="flex h-full gap-4 px-4">
+          <div className="flex h-full gap-4 px-4 flex-col sm:flex-row overflow-auto pb-24 sm:pb-0">
             <div className="flex items-center justify-center min-w-[50%]">
               {image && (
                 <Image
                   src={getImageUrl(image.date, name)}
                   alt={name}
                   height="2048"
+                  quality={85}
                   width="2048"
                   className="h-auto w-full"
                 />

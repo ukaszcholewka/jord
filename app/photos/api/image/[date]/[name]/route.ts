@@ -8,7 +8,12 @@ export async function GET(
 
   try {
     const file = await readFile(`./storage/photos/${params.date}/${params.name}`)
-    return new NextResponse(file)
+    console.log(file)
+    return new NextResponse(file, {
+      headers: {
+        "Content-Type": "image/*"
+      }
+    })
   } catch {
     return new Response(null, {
       status: 404

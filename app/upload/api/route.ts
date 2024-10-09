@@ -21,10 +21,11 @@ export async function POST(request: NextRequest) {
   if (!file) return Response.json({ status: 'missing image' })
 
   const buffer = await file.arrayBuffer()
-  const view = new DataView(buffer)
+  // const view = new DataView(buffer)
 
   try {
-    fs.writeFileSync(`${dirName}/${file.name}`, view)
+    // fs.writeFileSync(`${dirName}/${file.name}`, view)
+    Bun.write(`${dirName}/${file.name}`, buffer)
   } catch {
 
     return new Response(JSON.stringify({ status: 'error' }), {

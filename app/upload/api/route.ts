@@ -1,6 +1,6 @@
 import { NextRequest } from "next/server";
 import fs from 'fs'
-import { revalidateTag } from "next/cache";
+import { revalidatePath } from "next/cache";
 
 export async function POST(request: NextRequest) {
   const data = await request.formData() as FormData
@@ -33,7 +33,7 @@ export async function POST(request: NextRequest) {
     })
   }
 
-  revalidateTag(date)
+  revalidatePath('/photos', 'page')
   return new Response(JSON.stringify({ status: 'done', date }), {
     status: 200
   })

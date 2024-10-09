@@ -6,6 +6,8 @@ type PhotosDayProps = {
   day: GetPhotoApiListResponse[number]
 }
 
+export const dynamic = 'force-dynamic'
+
 async function PhotosDay({ day: date }: PhotosDayProps) {
   const [year, month, day] = date.split('_').map((item) => item.padStart(2, '0'))
   const photos = await getPhotosBayDay(date)

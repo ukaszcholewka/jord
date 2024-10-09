@@ -25,7 +25,7 @@ function TopBar() {
         <Href isActive={isActive(PATHS.Upload)} href={PATHS.Upload}>
           Upload
         </Href>
-        <Href isActive={isActive(PATHS.Photos)} href={PATHS.Photos}>
+        <Href prefetch={false} isActive={isActive(PATHS.Photos)} href={PATHS.Photos}>
           Photos
         </Href>
       </div>

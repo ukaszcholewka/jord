@@ -1,6 +1,8 @@
 import getPhotoApiList from "@/api/get/GetPhotoApiListResponse"
 import PhotosDay from "./day"
 
+export const dynamic = 'force-dynamic'
+
 
 async function Photos() {
   const list = await getPhotoApiList() || []

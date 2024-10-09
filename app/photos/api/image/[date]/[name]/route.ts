@@ -8,9 +8,6 @@ export async function GET(
   const image = Bun.file(`./storage/photos/${params.date}/${params.name}`)
   const arrayBuffer = await image.arrayBuffer()
 
-  console.log(image)
-  console.log(console.log(arrayBuffer))
-
   const blob = new Blob([arrayBuffer], {
     type: image.type,
   })

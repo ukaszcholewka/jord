@@ -12,8 +12,9 @@ import Api from './Api'
 
 const HOST = process.env.NEXT_PUBLIC_HOST
 const PORT = process.env.NEXT_PUBLIC_PORT
+const PROTOCOL = process.env.NEXT_PUBLIC_PROTOCOL
 
-const APP_URL = `${HOST}:${PORT}`
+const APP_URL = `${PROTOCOL}://${HOST}:${PORT}`
 
 class JordApi {
   public api = new Api(APP_URL)

@@ -8,8 +8,9 @@ export async function GET(
 
   try {
     const file = await readFile(`./storage/photos/${params.date}/${params.name}`)
-    console.log(file)
     return new NextResponse(file, {
+      status: 200,
+      statusText: 'OK',
       headers: {
         "Content-Type": "image/*"
       }

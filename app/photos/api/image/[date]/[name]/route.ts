@@ -1,3 +1,4 @@
+import { NextResponse } from 'next/server'
 import { readFile } from 'node:fs/promises'
 
 export async function GET(
@@ -7,7 +8,7 @@ export async function GET(
 
   try {
     const file = await readFile(`./storage/photos/${params.date}/${params.name}`)
-    return new Response(file)
+    return new NextResponse(file)
   } catch {
     return new Response(null, {
       status: 404

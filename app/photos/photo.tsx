@@ -10,7 +10,7 @@ type PhotoProps = {
 }
 
 const getImageUrl = (date: string, name: string, size?: '2048' | '256') =>
-  `${jordApi.api.url}/photos/api/image/${date}/${name}${size && `?size=${size}`}`
+  `${jordApi.api.url}/photos/api/image/${date}/${name}${size ? `?size=${size}` : ''}`
 
 function Photo({ photos }: PhotoProps) {
   const [show, setShow] = useState(false)
@@ -41,12 +41,11 @@ function Photo({ photos }: PhotoProps) {
   return (
     <div className="aspect-square overflow-hidden flex justify-center items-center">
       {image && (
-        <Image
+        <img
           src={getImageUrl(image.date, name, '256')}
           alt={name}
           height="256"
           width="256"
-          quality={90}
           className="cursor-pointer"
           onClick={onPhotoClick}
         />
@@ -62,11 +61,10 @@ function Photo({ photos }: PhotoProps) {
           <div className="flex h-full gap-4 px-4 flex-col sm:flex-row overflow-auto pb-24 sm:pb-0">
             <div className="flex items-center justify-center min-w-[50%]">
               {image && (
-                <Image
+                <img
                   src={getImageUrl(image.date, name, '2048')}
                   alt={name}
                   height="2048"
-                  quality={85}
                   width="2048"
                   className="h-auto w-full"
                 />

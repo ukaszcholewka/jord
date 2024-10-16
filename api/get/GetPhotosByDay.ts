@@ -22,7 +22,11 @@ async function getPhotosBayDay(date: string) {
     ext: /(?=[^.]*$).*/.exec(file)?.[0],
     name: /^.*(?=\.)/.exec(file)?.[0],
     date: date
-  })).filter(({ ext, name, date }) => !!name || !!ext || !!date) as PhotosByDayList[]
+  })).filter(({ ext, name, date }) => !!name || !!ext || !!date).filter(({ name }) =>
+    name !== ''
+  ) as PhotosByDayList[]
+
+  console.log(parsed)
 
   const sorted = Object.groupBy(parsed, ({ name }) => name)
   const singles = Array.from(new Set(parsed.map(({ name }) => name)))

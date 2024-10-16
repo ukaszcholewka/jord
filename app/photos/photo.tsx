@@ -39,7 +39,7 @@ function Photo({ photos }: PhotoProps) {
   }, [photos])
 
   return (
-    <div className="aspect-square overflow-hidden">
+    <div className="aspect-square overflow-hidden flex justify-center items-center">
       {image && (
         <Image
           src={getImageUrl(image.date, name, '256')}
@@ -47,7 +47,7 @@ function Photo({ photos }: PhotoProps) {
           height="256"
           width="256"
           quality={90}
-          className="h-auto w-auto cursor-pointer translate-y-[-50%] my-[50%]"
+          className="cursor-pointer"
           onClick={onPhotoClick}
         />
       )}

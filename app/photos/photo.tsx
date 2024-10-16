@@ -2,7 +2,6 @@
 
 import jordApi, { PhotosByDayList } from "@/api/JordApi"
 import Button from "@/atoms/Button"
-import Image from 'next/image'
 import { useCallback, useState } from "react"
 
 type PhotoProps = {
@@ -39,22 +38,31 @@ function Photo({ photos }: PhotoProps) {
   }, [photos])
 
   return (
-    <div className="aspect-square overflow-hidden flex justify-center items-center">
+    <div className="aspect-square overflow-hidden flex justify-center items-center relative">
       {image && (
-        <img
-          src={getImageUrl(image.date, name, '256')}
-          alt={name}
-          height="256"
-          width="256"
-          className="cursor-pointer"
-          onClick={onPhotoClick}
-        />
+        <>
+          <img
+            src={getImageUrl(image.date, name, '256')}
+            alt={name}
+            height="256"
+            width="256"
+            className="cursor-pointer"
+            onClick={onPhotoClick}
+          />
+          <div
+            className="absolute top-0 left-0 w-full h-full -z-10 blur-xl"
+            style={{ backgroundImage: `url(${getImageUrl(image.date, name, '256')})` }}
+          />
+        </>
       )}
 
       {show && (
         <div className="fixed top-0 left-0 w-full h-full bg-black z-10">
           <div className="flex justify-between px-4 py-2">
-            <div>{name}</div>
+            <div className="flex gap-4">
+              <div>{name}</div>
+              <Button>remove</Button>
+            </div>
             <Button onClick={onPhotoClose}>close</Button>
           </div>
 
@@ -64,13 +72,11 @@ function Photo({ photos }: PhotoProps) {
                 <img
                   src={getImageUrl(image.date, name, '2048')}
                   alt={name}
-                  height="2048"
-                  width="2048"
-                  className="h-auto w-full"
+                  className="max-h-full max-w-full"
                 />
               )}
             </div>
-            <div>
+            <div className="w-[30%] min-w-[200px]">
               <h2 className="text-4xl mb-2">Download</h2>
               <div>
                 {photos.map(({ ext }) => (

@@ -26,8 +26,6 @@ async function getPhotosBayDay(date: string) {
     name !== ''
   ) as PhotosByDayList[]
 
-  console.log(parsed)
-
   const sorted = Object.groupBy(parsed, ({ name }) => name)
   const singles = Array.from(new Set(parsed.map(({ name }) => name)))
   const images = singles.map((name) => sorted[name])

@@ -45,11 +45,7 @@ export async function POST(request: NextRequest) {
 
   if (!file) return Response.json({ status: 'missing image' })
 
-  console.log(file)
-
   const buffer = await file.arrayBuffer()
-  // const view = new DataView(buffer)
-  //
 
   const [writeFileError] = await agonizeAsync(async () => {
     const toResize = ACCEPTED_RESIZE.includes(file.type.split('/')[1])

@@ -29,7 +29,6 @@ function Upload() {
 
   const onPhotoChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const { files } = e.target
-
     if (!files) return
 
     const photos = Array.from(files).map((item) => ({
@@ -42,7 +41,8 @@ function Upload() {
 
   useEffect(() => {
     if (photos === null) return
-    if (photos.find(({ status }) => status === 'uploading')) return
+    if (photos.filter(({ status }) => status === 'uploading').length >= 2) return
+    // if (photos.find(({ status }) => status === 'uploading')) return
 
     const next = photos.find(({ status }) => status === 'idle')
     if (!next) return

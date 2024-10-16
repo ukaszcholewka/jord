@@ -1,32 +1,51 @@
-import { GetPhotoApiListResponse } from "@/api/JordApi"
+'use client'
+
+import { PhotosByDayList } from "@/api/JordApi"
 import Photo from "./photo"
-import getPhotosBayDay from "@/api/get/GetPhotosByDay"
+import Button from "@/atoms/Button"
+import { useCallback, useState } from "react"
+import { twMerge } from "tailwind-merge"
 
 type PhotosDayProps = {
-  day: GetPhotoApiListResponse[number]
+  photos: PhotosByDayList[][]
+  title: string
 }
 
+function PhotosDay({ photos, title }: PhotosDayProps) {
+  const [show, setShow] = useState(false)
 
-async function PhotosDay({ day: date }: PhotosDayProps) {
-  const [year, month, day] = date.split('_').map((item) => item.padStart(2, '0'))
-  const photos = await getPhotosBayDay(date)
+  const toggle = useCallback(() => {
+    setShow((show) => !show)
+  }, [])
 
   return (
     <div>
       <h2 className="text-4xl ml-2">
-        {year}, {month}, {day}
+        <Button
+          onClick={toggle}
+          className={twMerge(
+            'mb-2',
+            show ? `bg-white text-black hover:bg-black hover:text-white` : ''
+          )}
+        >
+          {title}
+        </Button>
       </h2>
-      <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 justify-center align-middle">
-        {photos.map((images) => {
-          const image = images[0]
-          const key = `${image.name}.${image.ext}`
+      {
+        show && (
+          <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 justify-center align-middle">
+            {photos.map((images) => {
+              const image = images[0]
+              const key = `${image.name}.${image.ext}`
 
-          return (
-            <Photo photos={images} key={key} />
-          )
-        })}
-      </div>
-    </div>
+              return (
+                <Photo photos={images} key={key} />
+              )
+            })}
+          </div>
+        )
+      }
+    </div >
   )
 }
 

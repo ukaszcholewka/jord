@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation"
 import { useCallback } from "react"
 
 const PATHS = {
+  Home: '/',
   Upload: '/upload',
   Photos: '/photos',
 } as const
@@ -13,7 +14,9 @@ function TopBar() {
   const path = usePathname()
 
   const isActive = useCallback((pathname: string) => {
-    return path.startsWith(pathname)
+    if (pathname !== '/')
+      return path.startsWith(pathname)
+    return path === '/'
   }, [path])
 
   return (
@@ -22,6 +25,9 @@ function TopBar() {
         className="flex justify-center py-2 fixed w-full ml-[-16px]"
         style={{ backdropFilter: 'blur(16px)' }}
       >
+        <Href prefetch={false} isActive={isActive(PATHS.Home)} href={PATHS.Home}>
+          Home
+        </Href>
         <Href isActive={isActive(PATHS.Upload)} href={PATHS.Upload}>
           Upload
         </Href>

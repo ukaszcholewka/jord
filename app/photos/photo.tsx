@@ -36,6 +36,10 @@ function Photo({ photos }: PhotoProps) {
     link.download = `${name}`
     link.click()
   }, [photos])
+4
+  const onRemove = useCallback((date: string, name: string) => {
+    fetch(`/photos/api/remove/${date}/${name}`)
+  }, [])
 
   return (
     <div className="aspect-square overflow-hidden flex justify-center items-center relative">
@@ -61,7 +65,7 @@ function Photo({ photos }: PhotoProps) {
           <div className="flex justify-between px-4 py-2">
             <div className="flex gap-4">
               <div>{name}</div>
-              <Button>remove</Button>
+              {image && <Button onClick={() => onRemove(image.date, image.name)}>remove</Button>}
             </div>
             <Button onClick={onPhotoClose}>close</Button>
           </div>

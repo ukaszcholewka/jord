@@ -55,7 +55,7 @@ function Photo({ photos }: PhotoProps) {
           />
           <div
             className="absolute top-0 left-0 w-full h-full -z-10 blur-xl"
-            style={{ backgroundImage: `url(${getImageUrl(image.date, name, '256')})` }}
+            style={{ backgroundImage: `url(${getImageUrl(image.date, `${name}.webp`, '256')})` }}
           />
         </>
       )}
@@ -63,7 +63,7 @@ function Photo({ photos }: PhotoProps) {
       {show && (
         <div className="fixed top-0 left-0 w-full h-full bg-black z-10">
           <div className="flex justify-between px-4 py-2">
-            <div className="flex gap-4">
+            <div className="flex gap-4 items-center">
               <div>{name}</div>
               {image && <Button onClick={() => onRemove(image.date, image.name)}>remove</Button>}
             </div>

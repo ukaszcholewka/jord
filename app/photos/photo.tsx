@@ -20,7 +20,7 @@ function Photo({ photos }: PhotoProps) {
   const png = photos.find(({ ext }) => ext.toLocaleLowerCase() === 'png')
 
   const image = webp || jpg || jpeg || png
-  const name = image ? `${image.name}.${image.ext}` : ''
+  const name = image ? `${image.name}` : ''
 
   const onPhotoClick = useCallback(() => setShow((show) => !show), [])
   const onPhotoClose = useCallback(() => setShow(false), [])
@@ -46,7 +46,7 @@ function Photo({ photos }: PhotoProps) {
       {image && (
         <>
           <img
-            src={getImageUrl(image.date, name, '256')}
+            src={getImageUrl(image.date, `${name}.webp`, '256')}
             alt={name}
             height="256"
             width="256"
@@ -74,7 +74,7 @@ function Photo({ photos }: PhotoProps) {
             <div className="flex items-center justify-center min-w-[50%]">
               {image && (
                 <img
-                  src={getImageUrl(image.date, name, '2048')}
+                  src={getImageUrl(image.date, `${name}.webp`, '2048')}
                   alt={name}
                   className="max-h-full max-w-full"
                 />

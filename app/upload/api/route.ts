@@ -13,6 +13,9 @@ const ACCEPTED_RESIZE = [
   'webp',
 ]
 
+const nameToWebp = (name: string) => {
+  return `${/^.*(?=\.)/.exec(name)}.webp`
+}
 
 export async function POST(request: NextRequest) {
   const data = await request.formData() as FormData
@@ -51,13 +54,13 @@ export async function POST(request: NextRequest) {
     const toResize = ACCEPTED_RESIZE.includes(file.type.split('/')[1])
 
     if (toResize)
-      sharp(buffer).resize(2048).toFormat('webp', { quality: 90 }).toBuffer().then((buffer) => {
-        Bun.write(`${thumnail_2048}/${file.name}`, buffer)
+      sharp(buffer).resize(2048).toFormat('webp', { quality: 85 }).toBuffer().then((buffer) => {
+        Bun.write(nameToWebp(`${thumnail_2048}/${file.name}`), buffer)
       })
 
     if (toResize)
-      sharp(buffer).resize(256).toFormat('webp', { quality: 90 }).toBuffer().then((buffer) => {
-        Bun.write(`${thumnail_256}/${file.name}`, buffer)
+      sharp(buffer).resize(256).toFormat('webp', { quality: 85 }).toBuffer().then((buffer) => {
+        Bun.write(nameToWebp(`${thumnail_256}/${file.name}`), buffer)
       })
 
     Bun.write(`${dirName}/${file.name}`, buffer)

@@ -3,15 +3,24 @@
 import jordApi, { PhotosByDayList } from "@/api/JordApi"
 import Button from "@/atoms/Button"
 import { useCallback, useState } from "react"
+import { twMerge } from "tailwind-merge"
 
 type PhotoProps = {
   photos: PhotosByDayList[]
+  onSelect?: (name: string) => void
+  selectable?: boolean
+  isSelected?: boolean
 }
 
 const getImageUrl = (date: string, name: string, size?: '2048' | '256') =>
   `${jordApi.api.url}/photos/api/image/${date}/${name}${size ? `?size=${size}` : ''}`
 
-function Photo({ photos }: PhotoProps) {
+function Photo({
+  photos,
+  onSelect = () => { },
+  selectable = false,
+  isSelected = false
+}: PhotoProps) {
   const [show, setShow] = useState(false)
 
   const webp = photos.find(({ ext }) => ext.toLocaleLowerCase() === 'webp')
@@ -25,6 +34,10 @@ function Photo({ photos }: PhotoProps) {
   const onPhotoClick = useCallback(() => setShow((show) => !show), [])
   const onPhotoClose = useCallback(() => setShow(false), [])
 
+  const onPhotoSelect = useCallback(() => {
+    onSelect(name)
+  }, [name])
+
   const onDownloadImage = useCallback(async (ext: string) => {
     const name = `${photos[0].name}.${ext}`
     const image = await fetch(getImageUrl(photos[0].date, name))
@@ -36,9 +49,10 @@ function Photo({ photos }: PhotoProps) {
     link.download = `${name}`
     link.click()
   }, [photos])
-4
-  const onRemove = useCallback((date: string, name: string) => {
-    fetch(`/photos/api/remove/${date}/${name}`)
+
+  const onRemove = useCallback(async (date: string, name: string) => {
+    await fetch(`/photos/api/remove/${date}/${name}`)
+    setShow(false)
   }, [])
 
   return (
@@ -50,8 +64,11 @@ function Photo({ photos }: PhotoProps) {
             alt={name}
             height="256"
             width="256"
-            className="cursor-pointer"
-            onClick={onPhotoClick}
+            className={twMerge(
+              `cursor-pointer transition-transform ease-in-out duration-100`,
+              isSelected && 'transform scale-50'
+            )}
+            onClick={!selectable ? onPhotoClick : onPhotoSelect}
           />
           <div
             className="absolute top-0 left-0 w-full h-full -z-10 blur-xl"

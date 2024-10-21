@@ -45,7 +45,7 @@ function PhotosDay({ photos, title }: PhotosDayProps) {
 
             return (
               <Photo
-                selectable
+                selectable={show && select}
                 photos={images}
                 key={key}
                 onSelect={toggle}

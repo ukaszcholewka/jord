@@ -12,6 +12,7 @@ export async function GET(
   for await (const file of dir.scan({
     dot: true
   })) {
+    console.info(`Removed file: ${file}`)
     await unlink(file)
   }
 

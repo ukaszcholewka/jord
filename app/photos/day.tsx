@@ -35,7 +35,7 @@ function PhotosDay({ photos, title }: PhotosDayProps) {
         >
           {title}
         </Button>
-        <Button isActive={show && select} onClick={toggleSelect}>select</Button>
+        {show && <Button isActive={select} onClick={toggleSelect}>select</Button>}
       </h2>
       {show && (
         <div className="grid grid-cols-4 sm:grid-cols-5 md:grid-cols-7 lg:grid-cols-9 justify-center align-middle">

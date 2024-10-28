@@ -1,9 +1,8 @@
 'use client'
 
 import jordApi, { PhotosByDayList } from "@/api/JordApi"
-import Button from "@/atoms/Button"
 import Link from "next/link"
-import { useCallback, useState } from "react"
+import { useCallback } from "react"
 import { twMerge } from "tailwind-merge"
 
 type PhotoProps = {
@@ -31,7 +30,7 @@ function Photo({
 
   const onPhotoSelect = useCallback(() => {
     onSelect(name)
-  }, [name])
+  }, [name, onSelect])
 
   return (
     <>

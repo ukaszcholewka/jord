@@ -70,7 +70,7 @@ function Photo({
                   `cursor-pointer transition-transform ease-in-out duration-100`,
                   isSelected && 'transform scale-50'
                 )}
-                onClick={!selectable ? onPhotoClick : onPhotoSelect}
+                onClick={onPhotoSelect}
               />
               <div
                 className="absolute top-0 left-0 w-full h-full -z-10 blur-xl"

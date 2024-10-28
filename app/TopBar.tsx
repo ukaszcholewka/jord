@@ -22,7 +22,7 @@ function TopBar() {
   return (
     <>
       <div
-        className="flex justify-center py-2 fixed w-full ml-[-16px]"
+        className="flex justify-center py-2 fixed w-full ml-[-16px] z-50"
         style={{ backdropFilter: 'blur(16px)' }}
       >
         <Href prefetch={false} isActive={isActive(PATHS.Home)} href={PATHS.Home}>

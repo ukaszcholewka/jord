@@ -70,6 +70,7 @@ function PhotosDay({ photos, date }: PhotosDayProps) {
                 key={key}
                 onSelect={toggle}
                 isSelected={list.includes(image.name)}
+                date={dir}
               />
             )
           })}

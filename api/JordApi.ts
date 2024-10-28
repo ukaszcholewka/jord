@@ -33,6 +33,14 @@ class JordApi {
     const response = await this.api.get<string>(`/photos/api/image/${date}/${name}`)
     return await response.text()
   }
+
+  public async onRemovePhoto(date: string, name: string) {
+    await fetch(`/photos/api/remove/${date}/${name}`)
+  }
+
+  public getImageUrl(date: string, name: string, size?: '2048' | '256') {
+    return `${jordApi.api.url}/photos/api/image/${date}/${name}${size ? `?size=${size}` : ''}`
+  }
 }
 
 const jordApi = new JordApi()

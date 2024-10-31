@@ -41,6 +41,8 @@ function Upload() {
   }, [])
 
   useEffect(() => {
+    if (!navigator.wakeLock?.request) return
+
     if (!wakeLock && photos && photos.find(({ status }) => status !== 'uploading')) {
       navigator.wakeLock.request('screen').then((lock) => {
         setWakeLock(lock)

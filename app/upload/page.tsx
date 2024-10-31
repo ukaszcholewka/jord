@@ -50,7 +50,7 @@ function Upload() {
     }
 
     return () => {
-      if (wakeLock) {
+      if (wakeLock && navigator.wakeLock) {
         wakeLock.release().then(() => setWakeLock(null))
       }
     }

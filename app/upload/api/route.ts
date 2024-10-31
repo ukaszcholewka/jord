@@ -47,7 +47,6 @@ export async function POST(request: NextRequest) {
   const file = data.get('files') as File
 
   if (!file) return Response.json({ status: 'missing image' })
-
   const buffer = await file.arrayBuffer()
 
   const [writeFileError] = await agonizeAsync(async () => {

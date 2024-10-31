@@ -8,6 +8,7 @@ const PATHS = {
   Home: '/',
   Upload: '/upload',
   Photos: '/photos',
+  ToDo: '/todo',
 } as const
 
 function TopBar() {
@@ -33,6 +34,9 @@ function TopBar() {
         </Href>
         <Href prefetch={false} isActive={isActive(PATHS.Photos)} href={PATHS.Photos}>
           Photos
+        </Href>
+        <Href prefetch={false} isActive={isActive(PATHS.ToDo)} href={PATHS.ToDo}>
+          Todo
         </Href>
       </div>
       <div className="h-12" />

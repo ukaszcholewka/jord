@@ -52,6 +52,9 @@ export async function POST(request: NextRequest) {
 
   const [writeFileError] = await agonizeAsync(async () => {
     const toResize = ACCEPTED_RESIZE.includes(file.type.split('/')[1])
+    const isImage = file.type.split('/')[0] === 'image'
+
+    if (!isImage) return
 
     if (toResize)
       sharp(buffer).resize(2048).toFormat('webp', { quality: 85 }).toBuffer().then((buffer) => {
@@ -64,6 +67,7 @@ export async function POST(request: NextRequest) {
       })
 
     Bun.write(`${dirName}/${file.name}`, buffer)
+    console.info(`Uploaded photo: ${date}/${file.name}`)
   })
 
   if (writeFileError)

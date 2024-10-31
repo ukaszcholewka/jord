@@ -9,11 +9,10 @@ export async function POST(
 
   for await (const image of images) {
     await fetch(`${APP_URL}/photos/api/remove/${params.date}/${image}`)
-
-
-    revalidatePath('/photos', 'page')
-    return new Response(null, {
-      status: 200
-    })
   }
+
+  revalidatePath('/photos', 'page')
+  return new Response(null, {
+    status: 200
+  })
 }

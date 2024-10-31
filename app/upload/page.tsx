@@ -21,6 +21,7 @@ const uploadImage = async (data: FormData) => {
 
 function Upload() {
   const [photos, setPhotos] = useState<FileUploadState[] | null>(null)
+  const [wakeLock, setWakeLock] = useState<WakeLockSentinel | null>(null)
   const photoInputRef = useRef<HTMLInputElement>(null)
 
   const uploadPhotos = useCallback(() => {
@@ -40,9 +41,22 @@ function Upload() {
   }, [])
 
   useEffect(() => {
+    if (!wakeLock && photos && photos.find(({ status }) => status !== 'uploading')) {
+      navigator.wakeLock.request('screen').then((lock) => {
+        setWakeLock(lock)
+      })
+    }
+
+    return () => {
+      if (wakeLock) {
+        wakeLock.release().then(() => setWakeLock(null))
+      }
+    }
+  }, [wakeLock, photos])
+
+  useEffect(() => {
     if (photos === null) return
     if (photos.filter(({ status }) => status === 'uploading').length >= 2) return
-    // if (photos.find(({ status }) => status === 'uploading')) return
 
     const next = photos.find(({ status }) => status === 'idle')
     if (!next) return

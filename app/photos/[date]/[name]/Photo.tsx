@@ -26,6 +26,7 @@ function Photo({ params, photos, next, prev }: PhotoProps) {
 
   const onRemove = useCallback((date: string, name: string) => async () => {
     await jordApi.onRemovePhoto(date, name)
+    router.replace('/photos')
   }, [])
 
   const onDownloadImage = useCallback((ext: string) => async () => {
